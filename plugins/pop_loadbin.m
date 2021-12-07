@@ -1,23 +1,15 @@
-function [EEG, command] = pop_loadbin(fullfilename, varargin)  
-    command = '';
+function [EEG, com] = pop_loadbin(filepath, varargin)  
+    com = '';
     if nargin < 1 % No file provided
-        [filename, filepath] = uigetfile({'*.bin;' 'All BIN files';}, 'Select a BIN file'); 
-        drawnow;
-        if filename == 0 % the user aborted
-            error('pop_loadbin(): File selection cancelled. Error thrown to avoid overwriting data in EEG.')
-        else % The user selected something
-            % Get filename components
-            fullfilename = [filepath, filename];
-            load(fullfilename);
+        [filename, path] = uigetfile({'*.BIN;' 'All BIN files';}, 'Select a BIN file'); 
+        if filename == 0
+            error('File selection cancelled.')
+        else
+            filepath = strcat(path,filename);
+            loadbin(filepath);
         end
     else % file was specified in the call
-        load(fullfilename);
+        loadbin(filepath);
     end
         
-end
-
-function [EEG, command] = load(fullfilename)
-    EEG = [];
-    EEG = eeg_emptyset;
-    [EEG, command] = loadbin(fullfilename);
 end

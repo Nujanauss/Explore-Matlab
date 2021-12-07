@@ -1,7 +1,7 @@
-function [EEG, command] = loadbin(fullfilename, varargin)
-    command = '';
-    
-    fid = fopen(fullfilename);
+function [EEG, com] = loadbin(filepath, varargin)
+    com = '';
+
+    fid = fopen(filepath);
     read = 1;
     ORN.data = [];
     ORN.timestamp = [];

@@ -1,20 +1,15 @@
 % eegplugin_explore() - is the top-level Explore EEGLab plug-in function
 %
 % Usage:
-%   >>  out = sample( in1, in2 );
+%   >>  eegplugin_explore(fig,try_strings,catch_strings);
 %
 % Inputs:
-%   fig             - the handle of the main EEGLAB window
-%   try_strings     - first input of the function
-%   catch_strings   - second input of the function
+%   fig - the handle of the main EEGLAB window
 %    
-% Outputs:
-%   out     - output of the function
-%
 % See also: 
 %   pop_sample, eeglab 
 
-% Copyright (C) <2021>  <Mentalab GmbH>
+% Copyright (C) 2021 Mentalab GmbH
 %
 % Redistribution and use in source and binary forms, with or without
 % modification, are permitted provided that the following conditions are met:
@@ -41,12 +36,7 @@ function vers = eegplugin_explore(fig, try_strings, catch_strings)
 
 vers = '0.1';
 
-cmd = [ cmd 'EEG.icaweights = pinv(EEG.icawinv);' ];
-
-finalcmd = [ try_strings.no_check cmd ];
-finalcmd = [ finalcmd check_epoch cmd ];
-finalcmd = [ finalcmd catch_strings.store_and_hist ];
-
 importmenu = findobj(fig, 'tag', 'import data');
 uimenu( importmenu, 'label', 'Import Mentalab Explore data', 'callback', ...
-    finalcmd);
+    ['[EEG LASTCOM]=pop_loadbin;' ...
+    '  [ALLEEG EEG CURRENTSET] = eeg_store(ALLEEG, EEG, CURRENTSET);']);
